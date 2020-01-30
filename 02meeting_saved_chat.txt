@@ -1,0 +1,69 @@
+17:00:30	 From  andriy.gamar : +
+17:00:35	 From  shkrobot  to  All panelists : +
+17:00:39	 From  shkrobot  to  All panelists : +
+17:00:43	 From  Ekaterina : виден
+17:00:45	 From  Nataly  to  All panelists : +
+17:00:47	 From  Ekaterina : всем привет
+17:00:50	 From  Дмитрий Каплан  to  All panelists : +
+17:02:10	 From  Елена  to  All panelists : Всем привет!
+17:11:59	 From  shkrobot  to  All panelists : +
+17:17:36	 From  Дарья Коцюба : что дает нам */ функционально?
+17:21:37	 From  Serhiy -  to  All panelists : Tools - Options - Text Editor - Transact-SQL - General - Line Numbers
+17:23:38	 From  Хлебников Александр : В интерфейсе клиента можно посмотреть схему базу данных?
+17:28:12	 From  Artyom : Простите, только подключился, ранее говорилось где задается алиас названия таблицы?
+17:30:02	 From  Ekaterina : а что такое схема базы?
+17:30:09	 From  Ekaterina : набор таблиц?
+17:31:40	 From  Serhiy -  to  All panelists : select p.product_id
+		,p.product_name
+		,description
+		,p.list_price
+	from db_laba.dbo.product as p;
+17:31:45	 From  Serhiy -  to  All panelists : Що тут не так?
+17:34:46	 From  Хлебников Александр : Там где вы показали dbo там схема каждой таблицы отдельно. А общую схему всей базы как на той  картинке, где есть все таблички
+17:35:31	 From  Artyom : такое https://prnt.sc/qv509x ?
+17:36:21	 From  Artyom : https://prnt.sc/qv50up
+17:36:26	 From  Хлебников Александр : Да
+17:37:31	 From  Artyom : мы уже разобрались
+17:38:43	 From  Ekaterina : а покажите плз на видео как схему сделать
+17:43:32	 From  Artyom : отсортируйте по 3му стобику, будет по цирфам )
+17:44:00	 From  Ekaterina : будет в будущих занятиях?
+17:44:16	 From  Ekaterina : поняла
+17:44:39	 From  Ekaterina : чтобы видеть все взаимосвязи если очень таблиц
+17:48:14	 From  Serhiy - : чому description виділяється синім, а інші об'єкти чорним?
+17:48:42	 From  Хлебников Александр : Название колонки совпадает с зарезервированным словом
+17:48:42	 From  Artyom : (1,2) - это стандартный ренты ?
+17:48:45	 From  Artyom : рендж
+17:48:56	 From  Artyom : диапазон тоже?
+17:49:09	 From  Artyom : тоесть через зпт значения?
+17:50:11	 From  Ekaterina : а если поля для in с текстом включая пробелы, то кавычить?
+17:56:58	 From  Ekaterina : в between может быть текст?
+18:00:20	 From  Ekaterina : да
+18:00:25	 From  shkrobot  to  All panelists : +
+18:01:30	 From  Дарья Коцюба : зачем %? 
+18:02:13	 From  Artyom : а если нужно с определенным кол-вом знаков в имени и на букву к
+18:03:45	 From  Serhiy - : А якщо в нас будуть і кирилися, і латиниця в product_name? Мав досвід із номерними знаками в Україні, коли вводили або українською, або англійською
+18:04:06	 From  Artyom : Заменой сначала все буквы
+18:06:04	 From  Serhiy - : а якщо по тексту треба взяти слова на 10 різних перших букв, використовуємо IN?
+18:06:30	 From  Ekaterina : знак ? может использоваться и что значит? где-то встречала
+18:10:17	 From  Ekaterina : а может быть пустое поле, без NULL? и как такие селектить?
+18:11:11	 From  Ekaterina : да, вижу, спасибо, понятно
+18:11:41	 From  Nataly  to  All panelists : якщо не NULL, то is not NULL ?
+18:13:10	 From  Nataly  to  All panelists : вже відповіли прикладом
+18:16:37	 From  Ekaterina : спасибо
+18:16:38	 From  Nataly  to  All panelists : Дякую!
+18:17:51	 From  Artyom : там есть прикрепить файлик
+18:18:21	 From  Artyom : https://prnt.sc/qv5r0c
+18:22:12	 From  Елена  to  All panelists : Я не помню, чтоб мы проходили про новую колонку
+18:22:38	 From  Ekaterina : вложенные запросы будут в 5 занятии?
+18:24:12	 From  Artyom : 5,6,7 задачи, оба числа в диапазоне включительно?
+18:24:57	 From  Никита  to  All panelists : в 7 задании нужно прописать «к» и «К»?
+18:25:42	 From  Никита  to  All panelists : ну я имею ввиду только не большая К
+18:25:47	 From  andriy.gamar : да все ок
+18:25:49	 From  Artyom : +
+18:25:59	 From  Ekaterina : с ipad можно как-то подключиться?
+18:26:05	 From  Ekaterina : к БД
+18:27:19	 From  Ekaterina : если какой-то из вопросов в дз не верно отвечен, то можно ли сделать работу над ошибками и дать новый ответ и повысить бал?
+18:28:58	 From  Ekaterina : ответ получен во время комментария
+18:29:23	 From  Artyom : на счет ipad - хороший вопрос )
+18:32:47	 From  Ekaterina : спасибо большое, хорошего вечера!
+18:32:55	 From  Дмитрий Каплан : Спасибо

@@ -15,7 +15,7 @@
 from
 	db_laba.dbo.orders ord
 where
-	ord.salesman_id =
+	ord.salesman_id = --61
 	 --employee_id = 61
 (
 	select --*
@@ -34,8 +34,8 @@ SELECT
 from
 	db_laba.dbo.orders ord
 where
-	ord.salesman_id =
-	-- salesman_id = 18
+	ord.salesman_id =-- 60
+	-- salesman_id = 
 (
 	SELECT
 		--*
@@ -47,7 +47,7 @@ where
 	where
 		cus.name = 'Progressive'
 		and ord0.salesman_id is NOT NULL )
-	and YEAR(ord.order_date) = 2017
+and YEAR(ord.order_date) = 2017
 order by
 	ord.order_date desc;
 
@@ -88,6 +88,13 @@ from
 		db_laba.dbo.order_items ordi
 	GROUP BY
 		ordi.order_id) x;
+	--	having SUM(ordi.unit_price * ordi.quantity) >= 1143716.8700) x
+	--WHERE x.price >= 1143716.8700;
+
+--1		1143716.8700
+--46	1269323.7700
+--70	1278962.1700
+--78	1198331.5900
 
 -- вывести все колоники таблицы заказов и их стоимость
 -- для заказов 2-го квартала 2017
@@ -121,8 +128,8 @@ where
 	SELECT
 		AVG(ordi.unit_price * ordi.quantity) avg_price
 	from
-		db_laba.dbo.order_items ordi)
-	and o.order_date BETWEEN '2017-04-01' and '2017-06-30'
+		db_laba.dbo.order_items ordi)--90695.3700
+	and o.order_date BETWEEN '2017-04-01' and '2017-06-30' -- yyyy-mm-dd, yyyymmdd, yyyy/mm/dd, to_date()...
 order by 6 desc;
 
 -- вывести номер заказа и его стоимость, имя и web сайт компании, имя и телефон продавца, дату заказа и их стоимость
@@ -133,7 +140,7 @@ order by 6 desc;
 	--o.status,
 	cus.name,
 	cus.website,
-	e.first_name,
+	e.first_name + ' ' + e.last_name sel_manager,
 	e.phone,
 	o.order_date,
 	x.price_per_order
@@ -169,7 +176,7 @@ where
 SELECT
 	o.order_id,
 	--o.status,
- cus.name,
+ 	cus.name,
 	cus.website,
 	e.first_name,
 	e.phone,
@@ -254,7 +261,7 @@ where
  */
 
 -- вывести количество клиентов и имя продавца
--- где количестов клиентов болле 20% от количестов клиентов для продавца за 2016 год
+-- где количестово клиентов болле 20% от количестов клиентов для продавца за 2016 год
 SELECT
 	COUNT(DISTINCT o.customer_id) as customer_amount,
 	e.first_name
@@ -319,7 +326,7 @@ having
   select
  	*
  from
- 	customers t0
+ 	db_laba.dbo.customers t0
  where
  	EXISTS (
  	SELECT
@@ -333,9 +340,24 @@ having
  		t1.customer_id
  	having
  		count(distinct t1.salesman_id) >= 3);
+/*
+ 1
+2
+3
+4
+5
+6
+7
+8
+17
+44
+46
+47
+49
+*/
  --check
  select
- 	count(DISTINCT o.salesman_id),
+ 	--count(DISTINCT o.salesman_id),
  	o.customer_id
  from
  	db_laba.dbo.orders o
@@ -348,12 +370,12 @@ having
   * | UNION и UNION ALL |
   * +-------------------+
   */
- -- вывести все заказы продавца по фамилии Ortiz
+ -- вывести все заказы
  -- ранжировать вывод по группам
   SELECT
  	t1.order_id,
  	SUM(t1.unit_price) price,
- 	'0-5000'
+ 	'0-5000' as first_rate
  from
  	db_laba.dbo.order_items t1
  group by
@@ -396,7 +418,7 @@ having
  	case when  x.price < 5000 then '0-5000'
  	 when  x.price BETWEEN 5000 and 10000 then '5001-10000'
  	 when  x.price >  10000 then '10000+'
- 	end
+ 	end price_grade
  	from (
   SELECT
  	t1.order_id,
@@ -432,7 +454,8 @@ select
 
  --
   select
- 	count(x.name)
+ 	count(DISTINCT  x.name),
+ 	count(  x.name)
  from
  	(
  	SELECT
@@ -440,8 +463,8 @@ select
  		last_name name
  	from
  		db_laba.dbo.employees
- UNION all
- --union
+ --UNION all
+ union
  	SELECT
  		last_name
  	from

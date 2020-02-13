@@ -16,23 +16,24 @@
 	o.order_id
 	,o.item_id
 	,o.quantity
+	--,MAX(o.quantity) OVER(PARTITION BY o.order_id ORDER BY o.item_id) AS "Max2"
+	,ROW_NUMBER () OVER(PARTITION BY o.order_id ORDER BY o.item_id) AS "rn"
 	--* o.unit_price price
 	--,SUM(o.quantity) SUM_QTY
 	--,SUM(o.quantity) OVER(PARTITION BY o.order_id) AS Total
 	--,SUM(o.quantity) OVER(PARTITION BY o.order_id ORDER BY o.item_id) AS Total2
-	,AVG(o.quantity)
-		OVER(PARTITION BY o.order_id) AS "Avg"
-	,AVG(o.quantity) OVER(PARTITION BY o.order_id ORDER BY o.item_id desc) AS "Avg2"
+	--,AVG(o.quantity) OVER(PARTITION BY o.order_id) AS "	"
+	--,AVG(o.quantity) OVER(PARTITION BY o.order_id ORDER BY o.item_id desc) AS "Avg2"
 	--,COUNT(o.quantity) OVER(PARTITION BY o.order_id) AS "Count"
 	--,COUNT(o.quantity) OVER(PARTITION BY o.order_id ORDER BY o.item_id desc) AS "Count2"
 	--,MIN(o.quantity) OVER(PARTITION BY o.order_id) AS "Min"
-	--,MIN(o.quantity) OVER(PARTITION BY o.order_id ORDER BY o.item_id desc) AS "Min2"
+	--,MIN(o.quantity) OVER(PARTITION BY o.order_id ORDER BY o.item_id) AS "Min2"
 	--,MAX(o.quantity) OVER(PARTITION BY o.order_id) AS "Max"
 	--,MAX(o.quantity) OVER(PARTITION BY o.order_id ORDER BY o.item_id desc) AS "Max2"
 from
 	db_laba.dbo.order_items o
 	where o.order_id in (1, 2)
---group by o.order_id,o.quantity
+--group by o.order_id,o.quantity, 
 --ORDER BY 1,2--,o.unit_price
 --,o.quantity, o.unit_price
 	--,o.item_id,o.quantity, o.unit_price
@@ -69,7 +70,7 @@ from
 	inner join db_laba.dbo.orders o0 on
 		o.order_id = o0.order_id
 		and YEAR(o0.order_date) = YEAR(GETDATE()) -4
-		--AND o0.order_date BETWEEN '2015-01-01' AND '2015-12-31'
+		--AND o0.order_date BETWEEN '2016-01-01' AND '2016-12-31'
 		--order by 1, 8
 		) x
 order by
@@ -87,8 +88,10 @@ select
 	x.first_name,
 	x.last_name,
 	x.phone ,
-	ROW_NUMBER() OVER (ORDER BY x.sold desc, x.order_date) AS Row_Num ,
-	NTILE(4) OVER (ORDER BY x.sold desc) AS Quartile
+	--ROW_NUMBER() OVER (ORDER BY x.sold desc, x.order_date) AS Row_Num,
+	ROW_NUMBER() OVER (PARTITION by  x.first_name--, x.last_name, x.phone 
+						ORDER BY x.sold desc, x.order_date) AS Row_Num --,
+	--NTILE(2) OVER (ORDER BY x.sold desc) AS Quartile
 from
 	(
 	select
@@ -103,9 +106,9 @@ from
 		o.order_id = o0.order_id
 	inner join db_laba.dbo.employees e on
 		e.employee_id = o0.salesman_id
-	where
-		year(o0.order_date) = 2017
-		and o0.salesman_id is not null
+	--where
+	--	year(o0.order_date) = 2017
+		--=and o0.salesman_id is not null
 	GROUP BY
 		o0.order_date,
 		e.first_name,
@@ -172,7 +175,8 @@ where
  * +------------------------------------+
  */
 
--- вывести id заказчика, дату, id и стоимость заказа, а так же стоимость пердидущего и следующего зкаказа
+-- вывести id заказчика, дату, id и стоимость заказа, а так же стоимость 
+-- пердидущего и следующего зкаказа
 -- для клиентов у который в имени 2я буква 'o' (латинская буква)
  SELECT
 	o.customer_id,
@@ -208,8 +212,8 @@ WHERE
 	o.order_date,
 	o.order_id,
 	o2.price,
-	FIRST_VALUE(o2.price)
-		OVER (PARTITION BY o.customer_id ORDER BY o.order_date, o.order_id) AS val_firstorder,
+	--FIRST_VALUE(o2.price)
+	--	OVER (PARTITION BY o.customer_id ORDER BY o.order_date, o.order_id) AS val_firstorder--,
 	LAST_VALUE(o2.price)
 		OVER (PARTITION BY o.customer_id ORDER BY o.order_date, o.order_id
 			ROWS BETWEEN CURRENT ROW AND UNBOUNDED FOLLOWING) AS val_lastorder
@@ -242,7 +246,7 @@ SELECT
 	x.order_id,
 	x.FullName,
 	x.price,
-	PERCENT_RANK() OVER(PARTITION BY x.FullName ORDER BY x.price desc) AS percentrank,
+	--PERCENT_RANK() OVER(PARTITION BY x.FullName ORDER BY x.price desc) *100.00 AS percentrank--,
 	CUME_DIST() OVER(PARTITION BY x.FullName ORDER BY x.price desc) AS cumedist
 from
 	(

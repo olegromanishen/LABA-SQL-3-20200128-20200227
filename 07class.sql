@@ -86,6 +86,7 @@ from
 where
 	employee_id = 0
 	and first_name like N'и%'
+	--and lower(first_name) like N'и%'
  and student_name = 'm.belko';
 -- без перечисления имен колонок
 INSERT
@@ -105,7 +106,8 @@ CAST('2016-10-15' as date),
 SELECT
 	*
 from
-	db_laba.dbo.employees_test_student;
+	db_laba.dbo.employees_test_student
+	WHERE student_name = 'm.belko';
 
 --err There are more columns in the INSERT statement than values specified in the VALUES clause.
 --The number of values in the VALUES clause must match the number of columns specified in the INSERT statement.
@@ -191,6 +193,13 @@ N'Сергеев',
 '333-00-312',
 CAST('2019-11-01' as date),
 'm.belko');
+
+--check
+SELECT
+	*
+from
+	db_laba.dbo.employees_test_student
+	WHERE student_name = 'm.belko';
 --err Cannot insert the value NULL into column 'student_name'
 
  INSERT
@@ -306,12 +315,22 @@ set
 WHERE
 	job_title = 'Programmer'
 and student_name = 'm.belko';
+
+-- check
+select
+	*
+from
+	db_laba.dbo.employees_test_student 
+	WHERE
+	job_title = 'Programmer2' and phone  = 333333
+and student_name = 'm.belko';
+
 ---
 update
 	db_laba.dbo.employees_test_student
 set
 	job_title = job_title + '_new',--'fkjghdfkjghkf'
-	phone = SUBSTRING(phone, 1, 3) + '-' + SUBSTRING(phone, 4, 99) --99 length(phone)
+	phone = SUBSTRING(phone, 1, 3) + '-' + SUBSTRING(phone, 4, 99) --99 length(phone) -3
 where  student_name = 'm.belko';
 --
  select
@@ -422,7 +441,7 @@ where
 		COALESCE(salesman_id, -1)
 	from
 		db_laba.dbo.orders)
-	and hire_date is null
+and hire_date is null
 and student_name = 'm.belko';
 
 /* +-----------------------------------+

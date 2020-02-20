@@ -15,6 +15,7 @@
 --https://docs.oracle.com/cd/B28359_01/server.111/b28310/tables003.htm#ADMIN11004
 --https://www.postgresql.org/docs/9.1/sql-createtable.html
 -- создать таблицу стран
+drop table db_laba.dbo.countries_test_mbelko;
 drop table if exists db_laba.dbo.countries_test_mbelko;
 CREATE TABLE db_laba.dbo.countries_test_mbelko (
 	id int,
@@ -41,8 +42,8 @@ from
 
 sp_help countries_test_mbelko;
 
---Oracle 
---create table temp AS select.....
+--Oracle...
+--create table temp TBL_NAME AS select.....
 
 /* +---------+
  * | Индексы |
@@ -67,7 +68,7 @@ select
 	0,
 	'Ukraine';
 --
- /* +----------------------------------+
+/* +----------------------------------+
  * | Изменение таблицы после создания |
  * +----------------------------------+
  */
@@ -78,7 +79,7 @@ SELECT * from db_laba.dbo.countries_test_mbelko;
 alter table db_laba.dbo.countries_test_mbelko drop COLUMN abbreviated;
 SELECT * from db_laba.dbo.countries_test_mbelko;
 
-SELECT ORDINAL_POSITION, COLUMN_NAME, DATA_TYPE, CHARACTER_MAXIMUM_LENGTH, IS_NULLABLE
+SELECT ORDINAL_POSITION, COLUMN_NAME, DATA_TYPE, CHARACTER_MAXIMUM_LENGTH, IS_NULLABLE--, *
 FROM INFORMATION_SCHEMA.COLUMNS
 WHERE TABLE_NAME = 'countries_test_mbelko';
 
@@ -159,7 +160,7 @@ DROP INDEX IX_employees_test_01_mbelko_01 ON
 db_laba.dbo.employees_test_01_mbelko;
 
 --check
-SELECT CONSTRAINT_NAME, *
+SELECT CONSTRAINT_NAME--, *
 FROM INFORMATION_SCHEMA.CONSTRAINT_TABLE_USAGE
 WHERE TABLE_NAME = 'Customers'
 --
@@ -191,7 +192,7 @@ FROM sys.indexes
 WHERE object_id = OBJECT_ID('dbo.customers_mbelko');
 
 
- /* +-----------------------------------+
+/* +-----------------------------------+
  * | Убедитесь, что значения уникальны |
  * +-----------------------------------+
  */
@@ -200,7 +201,8 @@ WHERE object_id = OBJECT_ID('dbo.customers_mbelko');
 insert into db_laba.dbo.employees_test_01_mbelko 
 select * from db_laba.dbo.employees;
 
-select count(distinct job_title),  count(job_title) from db_laba.dbo.employees;
+select count(distinct job_title),  count(job_title) 
+from db_laba.dbo.employees;
 /* +----------------------------------------------------+
  * | Уникальность как ограничение столбца и/или таблицы |
  * +----------------------------------------------------+
@@ -246,12 +248,12 @@ CREATE TABLE db_laba.dbo.TransactionHistory_01_mbelko
 --check
 SELECT ORDINAL_POSITION, COLUMN_NAME, DATA_TYPE, CHARACTER_MAXIMUM_LENGTH, IS_NULLABLE
 FROM INFORMATION_SCHEMA.COLUMNS
-WHERE TABLE_NAME = 'TransactionHistory_01';
+WHERE TABLE_NAME = 'TransactionHistory_01_mbelko';
 
 --check
 SELECT name, type_desc, is_unique, is_primary_key
 FROM sys.indexes
-WHERE object_id = OBJECT_ID('dbo.TransactionHistory_01');
+WHERE object_id = OBJECT_ID('dbo.TransactionHistory_01_mbelko');
 
 /* +------------------------------+
  * | Ограничение первичных ключей |
@@ -313,14 +315,16 @@ city char(10) CHECK (city IN ('London',
 'Barselona')),
 comm decimal CHECK (comm<1));
 --err The INSERT statement conflicted with the CHECK constraint "CK__Salespeopl__city__0C50D423". T
-insert into db_laba.dbo.Salespeople_01_mbelko(snum,sname,city,comm) VALUES(1,'test02','Kyiv',0.2 );
-
+insert into db_laba.dbo.Salespeople_01_mbelko(snum,sname,city,comm)
+VALUES(1,'test02','Kyiv',0.2 );
+insert into db_laba.dbo.Salespeople_01_mbelko(snum,sname,city,comm)
+VALUES(1,'test02','Barselona',0.2 );
 /* +---------------------------------+
  * | Установка значений по умолчанию |
  * +---------------------------------+
  */
 --
-
+drop table if exists db_laba.dbo.Salespeople_02_mbelko;
 CREATE TABLE db_laba.dbo.Salespeople_02_mbelko (snum integer NOT NULL UNIQUE,
 sname char(10) NOT NULL UNIQUE,
 city char(10) DEFAULT  'New York',

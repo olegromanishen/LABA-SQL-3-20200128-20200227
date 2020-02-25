@@ -40,6 +40,13 @@ select
 from
 	db_laba.dbo.regions;
 
+
+Insert
+	into
+	db_laba.dbo.regions_01_mbelko
+select
+	5, 'test';
+
 SELECT
 	*
 from
@@ -116,7 +123,7 @@ SELECT * FROM db_laba.dbo.countries_01_mbelko WHERE COUNTRY_ID = 'UA'
 from
 	db_laba.dbo.regions_01_mbelko
 where
-	region_id = 1;
+	region_id = 1;--5--1;
 
 ﻿--err DROP TABLE IF EXISTS db_laba.dbo.regions_01_mbelko;
 DROP TABLE IF EXISTS db_laba.dbo.regions_01_mbelko;
@@ -161,6 +168,17 @@ REFERENCES db_laba.dbo.regions_02_mbelko(region_id) ON
 DELETE --UPDATE
 	CASCADE );
 
+CREATE TABLE db_laba.dbo.countries_03_mbelko 
+( country_id CHAR(2) PRIMARY KEY ,
+country_name VARCHAR(40) NOT NULL,
+region_id int ,
+CONSTRAINT fk_countries_regions_03_mbelko FOREIGN KEY(region_id)
+REFERENCES db_laba.dbo.regions_02_mbelko(region_id) ON
+UPDATE
+	CASCADE );
+--CONSTRAINT fk_countries_regions_01_mbelko FOREIGN KEY(region_id) 
+--REFERENCES db_laba.dbo.regions_01_mbelko(region_id)
+
 --check
 Select C.*, (Select definition From sys.default_constraints Where object_id = C.object_id) As dk_definition,
 (Select definition From sys.check_constraints Where object_id = C.object_id) As ck_definition,
@@ -185,23 +203,41 @@ select
 from
 	db_laba.dbo.countries;
 
+Insert
+	into
+	db_laba.dbo.countries_03_mbelko
+select
+	*
+from
+	db_laba.dbo.countries where region_id != 3;
+
+SELECT
+	* 
+from
+	db_laba.dbo.countries_02_mbelko;-- where region_id = 3;
+	
 SELECT
 	*
 from
-	db_laba.dbo.countries_02_mbelko;-- where region_id = 3;
+	db_laba.dbo.countries_03_mbelko where region_id = 99;
 
 select *  from db_laba.dbo.countries_02_mbelko where country_name = 'Australia';
 DELETE from db_laba.dbo.countries_02_mbelko where country_name = 'Australia';
 select *  from db_laba.dbo.countries_02_mbelko where country_name = 'Australia';
 
 SELECT
-	*
+	* 
 from
 	db_laba.dbo.regions_02_mbelko;
 
 delete
 from
 	db_laba.dbo.regions_02_mbelko where region_id = 3;
+
+update
+	db_laba.dbo.regions_02_mbelko 
+set region_id = 99
+	where region_id = 1;
 --
 /* +--------------------------------------------------------------------+
  * | Внешние ключи, которые ссылаются обратно к их подчиненным таблицам |
@@ -209,7 +245,7 @@ from
  */
 
 
-DROP TABLE db_laba.dbo.employees_03_mbelko 
+DROP TABLE db_laba.dbo.employees_03_mbelko; 
 
 CREATE TABLE db_laba.dbo.employees_03_mbelko (
 	employee_id int NOT NULL,
@@ -242,9 +278,9 @@ INSERT INTO db_laba.dbo.employees_03_mbelko
 (employee_id, first_name, last_name, email, phone, hire_date, manager_id, job_title)
 VALUES(999, 'test', 'test', 'test', 'test', getdate(), 1, 'test');
 
-select * from db_laba.dbo.employees_03_mbelko where employee_id between 1 and 10 or employee_id = 1000;
+select * from db_laba.dbo.employees_03_mbelko where employee_id between 1 and 10 or employee_id >= 999;
 
-select min(employee_id) from db_laba.dbo.employees_03_mbelko
+select min(employee_id) from db_laba.dbo.employees_03_mbelko;
 
 INSERT INTO db_laba.dbo.employees_03_mbelko
 (employee_id, first_name, last_name, email, phone, hire_date, manager_id, job_title)
@@ -259,6 +295,10 @@ VALUES(1001, 'test', 'test', 'test', 'test', getdate(), (select min(employee_id)
 INSERT INTO db_laba.dbo.employees_03_mbelko
 (employee_id, first_name, last_name, email, phone, hire_date, manager_id, job_title)
 VALUES(1002, 'test', 'test', 'test', 'test', getdate(), 0, 'test');
+
+INSERT INTO db_laba.dbo.employees_03_mbelko
+(employee_id, first_name, last_name, email, phone, hire_date, manager_id, job_title)
+VALUES(1003, 'test', 'test', 'test', 'test', getdate(), null, 'test');
 
 ﻿
 --
@@ -282,9 +322,12 @@ select * from dbo.customers_ny;
  */
 ALTER VIEW dbo.customers_ny
 AS  
-SELECT customer_id, name--*  
+SELECT customer_id, name
 from db_laba.dbo.customers
 where RIGHT(address, 2) = 'NY' and credit_limit >= 1500;
+
+select  t.customer_id, t.name from dbo.customers_ny t
+where name like 'D%';
 --
 /* +-----------------------------------+
  * | Что не могут делать представления |
@@ -299,8 +342,6 @@ from db_laba.dbo.customers
 where RIGHT(address, 2) = 'NY'
 order by name;
 
-
-select * from customers_ny_mi;
 select * from dbo.customers_ny order by name;
 
 --
@@ -311,4 +352,6 @@ select * from dbo.customers_ny order by name;
 ﻿
 DROP VIEW  IF EXISTS dbo.customers_ny;  
 --
+with t1 ( phone) as ( select 2222 union all select 1112222 )
+select * from t1
 

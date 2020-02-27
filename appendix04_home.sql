@@ -37,7 +37,7 @@ ORDER BY t1.status,
             ,em.first_name+' '+em.last_name as sales_manager
             ,em.phone
         from orders o
-        left join employees em on o.salesman_id=em.employee_id
+         join employees em on o.salesman_id=em.employee_id
 
         where o.salesman_id in (
                                 select top 1
@@ -125,6 +125,8 @@ from (select x0.first_name,
             group by e.first_name, e.last_name, e.phone) x0) x1
 where x1.row_num <= 10
 and x1.row_num % 2 = 0;
+
+select 13 % 2
 
 
 /*

@@ -87,18 +87,25 @@ GRANT SELECT ON OBJECT :: "dbo"."countries" TO "student_test";
 GRANT SELECT, INSERT, UPDATE, DELETE ON OBJECT :: "dbo"."countries_02_mbelko" TO "student_test";
 REVOKE SELECT, INSERT, UPDATE, DELETE ON OBJECT :: "dbo"."countries_02_mbelko" FROM "student_test";
 
+--insert into db_laba.dbo.countries_02_mbelko insert  db_laba.dbo.regions_02_mbelko select * from db_laba.dbo.regions;
+--drop table dbo.countries_03_mbelko
+
 
 GRANT REFERENCES ON OBJECT :: "dbo"."countries_02_mbelko"(country_id) TO "student_test";
 REVOKE REFERENCES ON OBJECT :: "dbo"."countries_02_mbelko"(country_id) FROM "student_test";
 
 --GRANT INSERT ON OBJECT :: "dbo"."Audit_DDL_Events" TO "student_test";
 
-GRANT SELECT ON OBJECT :: "dbo"."countries_test_03_mbelko" TO "student_test" WITH GRANT OPTION;
-REVOKE SELECT ON OBJECT :: "dbo"."countries_test_03_mbelko" FROM "student_test" CASCADE ;
+GRANT SELECT ON OBJECT :: "dbo"."countries_02_mbelko" TO "student_test" WITH GRANT OPTION;
+REVOKE SELECT ON OBJECT :: "dbo"."countries_02_mbelko" FROM "student_test" CASCADE ;
 
-GRANT UPDATE ON OBJECT :: "dbo"."countries_test_03_mbelko"(country_name) TO "student_test";
-GRANT UPDATE ON OBJECT :: "dbo"."countries_test_03_mbelko" TO "student_test";
-REVOKE UPDATE ON OBJECT :: "dbo"."countries_test_03_mbelko" FROM "student_test";
+--insert into countries_test_03_mbelko select cast(country_id as char(2)), country_name from db_laba.dbo.countries;
+--select * from countries_test_03_mbelko
+
+GRANT UPDATE ON OBJECT :: "dbo"."countries_02_mbelko"(country_name) TO "student_test";
+REVOKE UPDATE ON OBJECT :: "dbo"."countries_02_mbelko"(country_name) TO "student_test";
+GRANT UPDATE ON OBJECT :: "dbo"."countries_02_mbelko" TO "student_test";
+REVOKE UPDATE ON OBJECT :: "dbo"."countries_02_mbelko" FROM "student_test";
 
 insert into countries_test_03_mbelko
 select 0, 'Ukraine' UNION select 1, 'USA'

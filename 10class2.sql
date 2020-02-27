@@ -19,17 +19,25 @@ REFERENCES db_laba.dbo.countries_02_mbelko(country_id)
 
 
 select * from db_laba.dbo.countries_test_03_mbelko;
-
 --err The UPDATE permission was denied on the column 'country_id' of the object
---'countries_test_03_mbelko', database 'db_laba', schema 'dbo'.
-update db_laba.dbo.countries_test_03_mbelko
-set country_id = country_id * 10;
+--'countries_02_mbelko', database 'db_laba', schema 'dbo'.
 
-
-update db_laba.dbo.countries_test_03_mbelko
+update db_laba.dbo.countries_02_mbelko
 set country_name = country_name + '_new';
 
 
-GRANT SELECT ON OBJECT :: "dbo"."countries_test_03_mbelko" TO "lector";
+-- Drop table
 
-select * from db_laba.dbo.customers_ny
+-- DROP TABLE db_laba.dbo.countries_test_03_mbelko GO
+
+CREATE TABLE db_laba.dbo.countries_test_03_mbelko (id int, name varchar(128));
+
+REVOKE INSERT ON OBJECT :: "dbo"."countries_test_03_mbelko" FROM "lector" ;
+
+
+
+GRANT INSERT ON OBJECT :: "dbo"."countries_test_03_mbelko" TO "lector";
+
+
+
+SELECT * from db_laba.dbo.customers_ny
